@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Route, Switch, Link } from 'react-router-dom'
 
 import './App.css'
+import { Echarts } from './pages/Echarts'
+import { Home } from './pages/Home'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,22 +11,12 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path='/contacts'>
-          <div>
-            It's contacts page
-          </div>
-          <div>
-            <Link to="/">Home</Link>
-          </div>
+        <Route path='/echarts'>
+          <Echarts />
         </Route>
 
         <Route path='/'>
-          <div>
-            It's home page
-          </div>
-          <div>
-            <Link to="/contacts">Contacts</Link>
-          </div>
+          <Home />
         </Route>
       </Switch>
     </div>
