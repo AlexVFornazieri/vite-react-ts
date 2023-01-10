@@ -1,6 +1,5 @@
 import { dispose, EChartsOption, EChartsType, getInstanceByDom, init } from 'echarts'
-import { useEffect, useState } from 'react'
-import { v1 as uuid } from 'uuid'
+import { useEffect, useRef, useState } from 'react'
 
 interface ChartTypes {
     option: EChartsOption
@@ -10,15 +9,13 @@ interface ChartTypes {
 
 export function RenderEChart ({option, width = 600, height = 400}: ChartTypes) {
 
-  const [chart, setChart] = useState<EChartsType>()
+  const charInstance = useRef<any>(null)
+  const chartRef = useRef(null)
   
-  // Random id for chart container
-  const id = 'eChart_' + uuid()
-
     useEffect(() => {
-      if(!chart) {
+      if(!charInstance.current) {
         // Create a new chart instance
-        const container = document.getElementById(id)
+        const container = chartRef.current
         
         if(!container) {
           console.error('Can\'t find chart container' )
@@ -32,14 +29,14 @@ export function RenderEChart ({option, width = 600, height = 400}: ChartTypes) {
         }
 
         //Set instance to state
-        setChart(init(container))
+        charInstance.current = init(container)
         return
       }
       // Updating existent instance option (merge)
-      chart.setOption(option)
-      }, [option, chart])
+      charInstance.current.setOption(option)
+      }, [option])
     
       return (
-        <div id={id} style={{ width, height, overflow: 'hidden' }} />
+        <div ref={chartRef} style={{ width, height, overflow: 'hidden' }} />
       )
 }
