@@ -4,6 +4,10 @@ import { RenderEChart } from "./RenderEChart"
 
 export function BarChart () {
 
+  const [ width, setWidth] = useState<number>(300)
+  const [ height, setHeight] = useState<number>(300)
+
+
   const [option, setOption] = useState<EChartsOption>({
     title: {
       text: 'Bar charts'
@@ -15,6 +19,15 @@ export function BarChart () {
     update()
     setInterval(update, 2000)
   }, [])
+
+
+  function updateWidth (e: any) {
+    setWidth(parseInt(e.target.value))
+  }
+
+  function updateHeight (e: any) {
+    setHeight(parseInt(e.target.value))
+  }
 
   function update () {    
     setOption({
@@ -37,7 +50,11 @@ export function BarChart () {
 
   return (
   <div className="container">
-    <RenderEChart option={option} />
+    <label>Height</label>
+    <input type="number" onChange={updateHeight} value={height} />
+    <label >Width</label>
+    <input type="number" onChange={updateWidth} value={width}/>
+    <RenderEChart option={option} width={width} height={height} />
   </div>
   )
 }
